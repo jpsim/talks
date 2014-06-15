@@ -252,7 +252,7 @@ JP Simard
 
 # jazzy<sup>♪♫</sup>
 
-### ![](octocat.png) *[github.com/realm/jazzy](media/https://github.com/realm/jazzy)*
+### ![](media/octocat.png) *[github.com/realm/jazzy](media/https://github.com/realm/jazzy)*
 
 #### a soulful way to generate docs for Swift & Objective-C
 
