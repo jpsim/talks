@@ -1,6 +1,6 @@
 # [fit] Swift
 
-## *for Ruby developers*
+## *for Rubyists*
 
 ![](media/swift.png)
 
