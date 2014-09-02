@@ -6,16 +6,17 @@
 
 # What is Realm?
 
-* **Fast, embedded database**
+* **Fast, embedded database** (zero-copy, not an ORM)
 * **Used in apps with *millions* of users**
 * **NoSQL**
 * **Full [ACID](http://en.wikipedia.org/wiki/ACID) transactions**
 * **Well defined threading model**
-* **C++ core with many language bindings** (only Objective-C & Swift released)
+* **Cross-platform C++ core with many language bindings** (only Objective-C & Swift released)
 
 ^Notes
 - Atomicity, Consistency, Isolation, Durability
 - Most NoSQL stores lack true ACID transactions
+- Same file format across platforms
 
 ---
 
@@ -24,6 +25,12 @@
 # [fit] ![](media/octocat.png)
 
 ## [github.com/realm/*realm-cocoa*](media/https://github.com/realm/realm-cocoa)
+
+---
+
+# Open Source*
+
+\* Cocoa binding 100% open source, C++ core in process of being released under Apache 2.0.
 
 ---
 
