@@ -168,9 +168,9 @@ company.name = @"Realm"; // etc...
 
 // Transactions
 RLMRealm *realm = [RLMRealm defaultRealm];
-[realm beginWriteTransaction];
-[realm addObject:company];
-[realm commitWriteTransaction];
+[realm transactionWithBlock:^{
+    [realm addObject:company];
+}];
 
 // Querying objects
 RLMArray *companies = [Company allObjects];
