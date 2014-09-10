@@ -59,7 +59,7 @@
 
 # [fit] ![](media/octocat.png)
 
-##  [github.com/realm/*realm-cocoa*](media/https://github.com/realm/realm-cocoa)
+##  [github.com/realm/*realm-cocoa*](https://github.com/realm/realm-cocoa)
 
 ---
 

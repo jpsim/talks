@@ -26,7 +26,7 @@ Thanks for coming!
 
 ---
 
-### ![](media/octocat.png) [github.com/realm/*realm-cocoa*](media/https://github.com/realm/realm-cocoa)
+### ![](media/octocat.png) [github.com/realm/*realm-cocoa*](https://github.com/realm/realm-cocoa)
 
 ---
 

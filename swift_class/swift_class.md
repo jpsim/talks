@@ -225,7 +225,7 @@ let status = SecItemAdd(dict as CFDictionaryRef, nil)
 
 # jazzy<sup>♪♫</sup>
 
-### ![](media/octocat.png) *[github.com/realm/jazzy](media/https://github.com/realm/jazzy)*
+### ![](media/octocat.png) *[github.com/realm/jazzy](https://github.com/realm/jazzy)*
 
 #### a soulful way to generate docs for Swift & Objective-C
 
