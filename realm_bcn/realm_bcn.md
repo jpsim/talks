@@ -30,12 +30,6 @@
 
 ---
 
-# Open Source*
-
-\* Cocoa binding 100% open source, C++ core in process of being released under Apache 2.0.
-
----
-
 # [fit] Why?
 
 ^Notes
