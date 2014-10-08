@@ -4,18 +4,33 @@
 
 ![](media/realm_github.png)
 
+^Notes
+- I'll explain what I mean by that in a minute
+- I almost named this talk...
+
+---
+
+# [fit] Making
+# [fit] **compile-time type safety**
+# [fit] play nice with
+# [fit] **runtime magic**
+
+^Notes
+- Based on how Realm for Swift actually works
+
 ---
 
 # What is Realm?
 
-* **Fast, embedded database** (zero-copy, not an ORM)
+* **Fast, zero-copy, embedded database**
 * **Used in apps with *millions* of users**
 * **NoSQL**
 * **Full [ACID](http://en.wikipedia.org/wiki/ACID) transactions**
 * **Well defined threading model**
-* **Cross-platform C++ core with many language bindings** (only Objective-C & Swift released)
+* **Cross-platform C++ core with many language bindings** (currently Objective-C, Swift & Android)
 
 ^Notes
+- Not SQLite
 - Atomicity, Consistency, Isolation, Durability
 - Most NoSQL stores lack true ACID transactions
 - Same file format across platforms
@@ -28,7 +43,7 @@
 
 ## [github.com/realm/*realm-cocoa*](https://github.com/realm/realm-cocoa)
 
-### \* Bindings 100% open source, C++ core being released as Apache 2
+### \* Bindings 100% open source, C++ core will launch as Apache 2
 
 ---
 
@@ -87,6 +102,53 @@ let myPersonClass: AnyClass =
 
 ---
 
+# [fit] **TOOLS**
+
+---
+
+# **SwiftData**
+
+## Simple and Effective SQLite Handling in Swift
+## [github.com/ryanfowler/SwiftData](https://github.com/ryanfowler/SwiftData)
+## Made by Ryan Fowler, [@ryanfowler19](https://twitter.com/ryanfowler19)
+
+```swift
+if let err = SD.createTable("Cities", 
+             withColumnNamesAndTypes: ["Name": .StringVal, 
+                                       "Population": .IntVal]) {
+    //there was an error during this function, handle it here
+} else {
+    //no error, the table was created successfully
+}
+```
+
+^Notes
+- Direct wrapper around SQLite, à la FMDB
+
+---
+
+# **QueryKit**
+
+## Swift CoreData query language
+## [querykit.org](http://querykit.org)
+## Made by Kyle Fuller, [@kylef](https://twitter.com/kylef)
+
+```swift
+Person.queryset(context).filter(Person.name == "Kyle").delete()
+
+// Filtering
+queryset.filter(Person.name == "Kyle")
+queryset.exclude(Person.age < 21)
+queryset.exclude(Person.isEmployed)
+```
+
+![](https://pbs.twimg.com/profile_images/503616091461910528/8qYuiMpl.png)
+
+^Notes
+- Great tool for working with Core Data in Swift
+
+---
+
 # Realm in Swift
 
 * **Generics**
@@ -110,8 +172,8 @@ class Employee: Object {
 
 class Company: Object {
   dynamic var name = ""
-  dynamic var ceo = Employee()
-  dynamic var employees = ArrayProperty(Employee)
+  dynamic var ceo: Employee? // optional. who needs CEO's?!
+  let employees = List<Employee>()
 }
 ```
 
@@ -125,37 +187,84 @@ class Company: Object {
 # Using Realm
 
 ```swift
-// Using Realm Objects
-let company = Company()
+let company = Company() // Using Realm Objects
 company.name = "Realm" // etc...
 
-// Transactions
-defaultRealm().transaction() {
-  realm.add(company)
+defaultRealm().write { // Transactions
+  defaultRealm().add(company)
 }
 
-// Querying objects
+// Queries
 let companies = objects(Company)
-companies[0]?.name // => Realm (generics)
-let ftEmployees = objects(Employee).filter(.fullTime == true || .name == "John")
+companies[0].name // => Realm (generics)
+let ftJacks = objects(Employee) // "Jack"s who work full time
+              .filter(.fullTime == true && .name == "Jack")
 ```
+
+^Notes
+- I could talk all day about Realm, but I won't
+- migrations, change notifications, JSON mapping, primary keys...
+- Now let's talk about how this works...
 
 ---
 
-# Work In Progress
+# [fit] **Realm**
+# [fit] Under the hood
 
-* Change notifications/Live Results Sets
-* Primary Keys/Upsert/JSON Mapping
-* Delete Rules 
-* Bi-directional relationships
-* Sync
-* Open Source Core
-* Android
+^Notes
+- Never before seen look at the Realm internals
+
+---
+
+![](http://media.giphy.com/media/H1lX50ZBbPTyM/giphy.gif)
+
+^Notes
+- For those of you keeping track, this is the pizza-riding-space-cowboy part of the talk
+
+---
+
+# [fit] **Thou shalt do**
+# [fit] **no**
+# [fit] **evil**
+
+![](media/evil.jpg)
+
+^Notes
+- For this part, you need to change your mindset
+
+---
+
+# [fit] **Thou shalt do**
+# [fit] **~~no~~**
+# a convenient amount of
+# [fit] **evil**
+
+![](media/evil.jpg)
+
+^Notes
+- Evil is a bit of a stretch here, but it's certainly unconventional
+
+---
+
+# [fit] **Evil** things Realm does
+
+# 1. Introspecting Swift from Swift (:thumbsup:)
+# 2. Introspecting Swift from ObjC (:scream:)
+# 3. Overriding property accessors (:sunglasses:)
+# 4. Emoji properties in ObjC (:grimacing:)
+# 5. Generic properties in ObjC (:rocket::exclamation:)
+
+![](media/evil.jpg)
+
+---
+
+# [fit] another time...
 
 ---
 
 # Resources
 
+* [This talk](https://github.com/jpsim/talks) **(github.com)**
 * [Realm on GitHub](https://github.com/realm/realm-cocoa) **(github.com)**
 * [Realm's WIP Swift branch](https://github.com/realm/realm-cocoa/tree/jp-swift-syntax-beta7) **(github.com)**
 * [Writing Swift Classes With Objective-C Behavior](https://developer.apple.com/library/prerelease/mac/documentation/Swift/Conceptual/BuildingCocoaApps/WritingSwiftClassesWithObjective-CBehavior.html) **(apple.com)**
@@ -163,6 +272,10 @@ let ftEmployees = objects(Employee).filter(.fullTime == true || .name == "John")
 
 ---
 
-# [fit] Questions?
+# [fit] **Thank You!**
 
-## @simjp, jp@realm.io
+---
+
+# [fit] `Meetup().questions?.askThem!`
+
+# JP Simard, *[@simjp](https://twitter.com/simjp)*, *[realm.io](http://realm.io)*
