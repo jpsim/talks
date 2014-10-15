@@ -6,14 +6,15 @@
 
 # What is Realm?
 
-* **Fast, embedded database** (zero-copy, not an ORM)
+* **Fast, zero-copy, embedded database**
 * **Used in apps with *millions* of users**
 * **NoSQL**
 * **Full [ACID](http://en.wikipedia.org/wiki/ACID) transactions**
 * **Well defined threading model**
-* **Cross-platform C++ core with many language bindings** (only Objective-C & Swift released)
+* **Cross-platform C++ core with many language bindings** (currently Objective-C, Swift & Android)
 
 ^Notes
+- Not SQLite
 - Atomicity, Consistency, Isolation, Durability
 - Most NoSQL stores lack true ACID transactions
 - Same file format across platforms
@@ -26,7 +27,7 @@
 
 ## [github.com/realm/*realm-cocoa*](https://github.com/realm/realm-cocoa)
 
-### **\* Bindings 100% open source, C++ core being released as Apache 2**
+### **\* Bindings 100% open source, C++ core launching as Apache 2**
 
 ---
 
@@ -170,7 +171,7 @@ RLMRealm *realm = [RLMRealm defaultRealm];
 
 // Querying objects
 RLMArray *companies = [Company allObjects];
-RLMArray *FTEmployees = [Employee objectsWhere:@"fullTime == YES"];
+RLMArray *FTJacks = [Employee objectsWhere:@"fullTime == YES && name == Jack"];
 ```
 
 ---
@@ -178,26 +179,19 @@ RLMArray *FTEmployees = [Employee objectsWhere:@"fullTime == YES"];
 # Using Realm (Swift)
 
 ```swift
-// Using Realm Objects
-let company = Company()
+let company = Company() // Using Realm Objects
 company.name = "Realm" // etc...
 
-// Transactions
-defaultRealm().write {
-  realm.add(company)
+defaultRealm().write { // Transactions
+  defaultRealm().add(company)
 }
 
-// Querying objects
+// Queries
 let companies = objects(Company)
-companies[0]?.name // => Realm (generics)
-let ftJohns = objects(Employee).filter(.fullTime == true && .name == "John")
+companies[0].name // => Realm (generics)
+let ftJacks = objects(Employee) // "Jack"s who work full time
+              .filter(.fullTime == true && .name == "Jack")
 ```
-
----
-
-# Demo
-
-![](media/xcode.png)
 
 ---
 
@@ -208,7 +202,6 @@ let ftJohns = objects(Employee).filter(.fullTime == true && .name == "John")
 * Bi-directional relationships
 * Sync
 * Open Source Core
-* Android
 
 ---
 
