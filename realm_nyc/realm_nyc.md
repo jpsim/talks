@@ -6,14 +6,16 @@
 
 # What is Realm?
 
-* **Fast, embedded database** (zero-copy, not an ORM)
+* **Fast, zero-copy, embedded database**
 * **Used in apps with *millions* of users**
 * **NoSQL**
 * **Full [ACID](http://en.wikipedia.org/wiki/ACID) transactions**
 * **Well defined threading model**
-* **Cross-platform C++ core with many language bindings** (only Objective-C & Swift released)
+* **Cross-platform C++ core with many language bindings** (currently Objective-C, Swift & Android)
 
 ^Notes
+- Not SQLite
+- Used by companies like Groupon, Coursera, Zynga...
 - Atomicity, Consistency, Isolation, Durability
 - Most NoSQL stores lack true ACID transactions
 - Same file format across platforms
@@ -26,11 +28,7 @@
 
 ## [github.com/realm/*realm-cocoa*](https://github.com/realm/realm-cocoa)
 
----
-
-# Open Source*
-
-\* Cocoa binding 100% open source, C++ core in process of being released under Apache 2.0.
+### \* Bindings 100% open source, C++ core launching as Apache 2
 
 ---
 
@@ -143,19 +141,24 @@ RLM_ARRAY_TYPE(Employee)
 # Realm Models (Swift)
 
 ```swift
-class Employee : RLMObject {
-    dynamic var name = ""
-    dynamic var startDate = NSDate()
-    dynamic var salary = 0.0
-    dynamic var fullTime = true
+class Employee: Object {
+  dynamic var name = "" // you can specify defaults
+  dynamic var startDate = NSDate()
+  dynamic var salary = 0.0
+  dynamic var fullTime = true
 }
 
-class Company : RLMObject {
-    dynamic var name = ""
-    dynamic var ceo = Employee()
-    dynamic var employees = RLMArray(objectClassName: "Employee")
+class Company: Object {
+  dynamic var name = ""
+  dynamic var ceo: Employee? // optional. who needs CEO's?!
+  let employees = List<Employee>()
 }
 ```
+
+^Notes
+- This is all you have to do to define your models
+- No code generation, keeping graphical/code in sync
+- dynamic backs objects & properties directly by database
 
 ---
 
@@ -179,21 +182,75 @@ RLMArray *FTEmployees = [Employee objectsWhere:@"fullTime == YES"];
 
 ---
 
-# Demo
+# Using Realm (Swift)
 
-![](media/xcode.png)
+```swift
+let company = Company() // Using Realm Objects
+company.name = "Realm" // etc...
+
+defaultRealm().write { // Transactions
+  defaultRealm().add(company)
+}
+
+// Queries
+let companies = objects(Company)
+companies[0].name // => Realm (generics)
+let ftJacks = objects(Employee) // "Jack"s who work full time
+              .filter("fullTime == true && name == Jack")
+```
+
+---
+
+# Setting up Core Data
+
+---
+
+```swift
+@lazy var managedObjectContext: NSManagedObjectContext = {
+  let modelURL = NSBundle.mainBundle().URLForResource("SwiftTestOne", withExtension: "momd")
+  let mom = NSManagedObjectModel(contentsOfURL: modelURL)
+  ZAssert(mom != nil, "Error initializing mom from: \(modelURL)")
+
+  let psc = NSPersistentStoreCoordinator(managedObjectModel: mom)
+
+  let urls = NSFileManager.defaultManager().URLsForDirectory(.DocumentDirectory, inDomains: .UserDomainMask)
+  let storeURL = (urls[urls.endIndex-1]).URLByAppendingPathComponent("SwiftTestOne.sqlite")
+
+  var error: NSError? = nil
+
+  var store = psc.addPersistentStoreWithType(NSSQLiteStoreType, configuration: nil, URL: storeURL, options: nil, error: &error)
+  if (store == nil) {
+    println("Failed to load store")
+  }
+  ZAssert(store != nil, "Unresolved error \(error?.localizedDescription), \(error?.userInfo)\nAttempted to create store at \(storeURL)")
+
+  var managedObjectContext = NSManagedObjectContext()
+  managedObjectContext.persistentStoreCoordinator = psc
+
+  return managedObjectContext
+}()
+```
+
+^Notes
+- http://www.cimgf.com/2014/06/08/the-core-data-stack-in-swift
+
+---
+
+# Setting up Realm
+
+---
+
+# [fit] `defaultRealm()`
 
 ---
 
 # Work In Progress
 
-* Change notifications/Live Results Sets
-* Primary Keys/Upsert/JSON Mapping
-* Delete Rules 
-* Bi-directional relationships
+* Change notifications
+* Delete Rules
 * Sync
+* Support for more data types
 * Open Source Core
-* Android
 
 ---
 
