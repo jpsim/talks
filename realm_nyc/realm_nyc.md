@@ -88,6 +88,7 @@
 # Lots has changed in last decade
 
 * Smartphone Revolution
+* Low Connectivity
 * NoSQL
 * Need for Sync
 
@@ -102,15 +103,15 @@
 
 ---
 
+![](media/realm_inserts.png)
+
+---
+
 ![](media/realm_counts.png)
 
 ---
 
 ![](media/realm_queries.png)
-
----
-
-![](media/realm_inserts.png)
 
 ---
 
