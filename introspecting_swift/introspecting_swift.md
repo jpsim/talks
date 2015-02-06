@@ -12,8 +12,7 @@ slidenumbers: true
 
 ^Notes
 - Runtime introspection is a powerful tool for creating elegant and delightful API's that leverage information the program already has.
-- Enables really powerful API's
-- If done right, they can also be safer than the alternatives
+- If done right, they can also be safer than the alternatives.
 
 ---
 
@@ -490,7 +489,7 @@ class Company: Object {
 
 * This talk: *[github.com/jpsim/talks](https://github.com/jpsim/talks)*
 * Mantle: *[github.com/Mantle/Mantle](https://github.com/Mantle/Mantle)*
-* FCModel (TODO): *[github.com/marcoarment/FCModel](https://github.com/marcoarment/FCModel)*
+* FCModel: *[github.com/marcoarment/FCModel](https://github.com/marcoarment/FCModel)*
 * Realm: *[github.com/realm/realm-cocoa](https://github.com/realm/realm-cocoa)*
 * QueryKit: *[github.com/QueryKit/QueryKit](https://github.com/QueryKit/QueryKit)*
 * Argo: *[github.com/thoughtbot/Argo](https://github.com/thoughtbot/Argo)*
@@ -502,9 +501,8 @@ class Company: Object {
 * Dynamic Casting: *[blog.segiddins.me](http://blog.segiddins.me/2015/01/25/dynamic-casting-in-swift)*
 * SwiftXPC: *[github.com/jpsim/SwiftXPC](https://github.com/jpsim/SwiftXPC)*
 * MirrorType Docs: *[swiftdoc.org/protocol/MirrorType](http://swiftdoc.org/protocol/MirrorType)*
-* Russ Bishop, evil things (TODO)
-* Injection for Xcode (TODO)
-* Jay Freeman AltConf (TODO)
+* Russ Bishop on horrible things: *[russbishop.net](http://www.russbishop.net/swift-how-did-i-do-horrible-things)*
+* Injection for Xcode: *[injectionforxcode.com](http://injectionforxcode.com)*
 * SwiftIvarTypeDetector: *[github.com/jpsim/SwiftIvarTypeDetector](https://github.com/jpsim/SwiftIvarTypeDetector)*
 
 ---
