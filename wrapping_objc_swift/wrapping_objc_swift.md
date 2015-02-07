@@ -68,6 +68,13 @@ NSVariableStatusItemLength
 
 ---
 
+# Step 1: Make dynamic objc framework
+
+^Notes
+- Only way to make it accessible to Swift
+
+---
+
 # Porting an API
 
 ```
@@ -83,9 +90,9 @@ objects<T: RLMObject>(type: T.Type) // Swift
 
 ---
 
-# Distribution
+# Packaging
 
-1. Dynamic framework logical
+1. Dynamic framework, logical
 2. Can't statically link Objective-C framework in Swift framework (no modules)
 
 ---
@@ -96,7 +103,7 @@ objects<T: RLMObject>(type: T.Type) // Swift
 
 # Exposing Just the Right Interfaces
 
-## Making sure Objective-C is still importable
+## Making sure Objective-C is still import-able
 
 1. Module Map needs to be preserved
 2. Must be a dynamic framework
@@ -106,11 +113,27 @@ objects<T: RLMObject>(type: T.Type) // Swift
 
 ---
 
+# Step 2: Setup Swift framework target
+
+^Notes
+
+---
+
+# Make Sure Your Framework Compiles ...
+
+* when building standalone
+* when building a target which links against it
+
+^Notes
+therefore the test target, in our case: integration tests
+
+---
+
 # Exposing Just the Right Interfaces
 
 ## Exposing private interfaces just for Swift binding
 
-> Unfortunately bridging headers don't work for framework targets
+> Unfortunately there is no private bridging headers for framework targets
 
 ---
 
@@ -134,6 +157,41 @@ framework module Realm {
 ^Notes
 - It's possible that your Swift wrapper will still need to access some internal code not exposed in the public interface
 - Must create a new module map with the private things
+- This is technically public, but has to be used as Realm.Private so it's explicit
+- Or use a private module map
+
+---
+
+# Exposing Just the Right Interfaces
+
+## Don't subclass
+
+```swift
+import Realm
+class Realm: RLMRealm {
+    // What's wrong with this?
+}
+```
+
+---
+
+# Exposing Just the Right Interfaces
+
+## Don't subclass. Wrap!
+
+```swift
+import Realm
+class Realm {
+    private var rlmRealm: RLMRealm
+
+    private init(rlmRealm: RLMRealm) {
+        self.rlmRealm = rlmRealm
+    }
+}
+```
+
+^Notes
+- This way, RLMRealm's interface isn't exposed
 
 ---
 
@@ -160,10 +218,18 @@ framework module Realm {
 
 ---
 
+# Publishing
+
+* Carthage
+* CocoaPods
+
+---
+
 # Links
 
 * This talk: *[github.com/jpsim/talks](https://github.com/jpsim/talks)*
-* Realm/RealmSwift: *[github.com/realm/realm-cocoa](https://github.com/realm/realm-cocoa)*
+* Realm: *[github.com/realm/realm-cocoa](https://github.com/realm/realm-cocoa)*
+* RealmSwift: *[realm/realm-cocoa/tree/al-swift](https://github.com/realm/realm-cocoa/tree/al-swift)*
 * jazzy: *[github.com/realm/jazzy](https://github.com/realm/jazzy)*
 
 ---
