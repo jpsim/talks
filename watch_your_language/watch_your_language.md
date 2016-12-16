@@ -55,6 +55,9 @@ slidenumbers: true
 
 ![inline-50%](why_swiftlint.png)
 
+^
+Source: https://twitter.com/simjp/status/809535736613478400
+
 ---
 
 # Rules
